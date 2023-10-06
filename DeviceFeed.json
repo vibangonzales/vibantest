@@ -1,13 +1,13 @@
 {
-  "$id": "https://raw.githubusercontent.com/vibangonzales/vibantest/main/DeviceFeed.json",
+  "$id": "https://???/DeviceFeed.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "WZDx v4.2 DeviceFeed",
-  "description": "The GeoJSON output of a WZDx Device Feed (v4.2)",
+  "title": "CWZ v1.0 DeviceFeed",
+  "description": "The GeoJSON output of a CWZ Device Feed v1.0",
   "type": "object",
   "required": ["feed_info", "type", "features"],
   "properties": {
     "feed_info": {
-      "$ref": "https://raw.githubusercontent.com/vibangonzales/vibantest/main/FeedInfo.json"
+      "$ref": "https://???/FeedInfo.json"
     },
     "type": {
       "description": "The GeoJSON type",
@@ -21,15 +21,15 @@
       }
     },
     "bbox": {
-      "$ref": "https://raw.githubusercontent.com/vibangonzales/vibantest/main/BoundingBox.json"
+      "$ref": "https://???/BoundingBox.json"
     }
   },
   "definitions": {
     "FieldDeviceFeature": {
       "title": "Field Device Feature (GeoJSON Feature)",
-      "description": "The GeoJSON feature container for a WZDx field device",
+      "description": "The GeoJSON feature container for a CWZ field device",
       "type": "object",
-	    "required": ["id","type","properties","geometry"],
+	"required": ["id","type","properties","geometry"],
       "properties": {
         "id": {
           "description": "A unique identifier issued by the data feed provider to identify the field device. It is recommended that this identifier is a Universally Unique IDentifier (UUID) as defined in [RFC 4122](https://datatracker.ietf.org/doc/html/rfc4122).",
@@ -67,15 +67,14 @@
               "$ref": "#/definitions/LocationMarker"
             },
             {
+              "$ref": "#/definitions/RoadsideUnit"
+            },
+            {
               "$ref": "#/definitions/TrafficSensor"
             },
             {
               "$ref": "#/definitions/TrafficSignal"
-            },
-            {
-              "$ref": "#/definitions/RoadsideUnit"
             }
-
           ]
         },
         "geometry": {
@@ -86,7 +85,7 @@
           ]
         },
         "bbox": {
-          "$ref": "https://raw.githubusercontent.com/vibangonzales/vibantest/main/BoundingBox.json"
+          "$ref": "https://???/BoundingBox.json"
         }
       }
     },
@@ -102,7 +101,7 @@
         "has_automatic_location"
       ],
       "dependencies": {
-        "reference_post": ["unit"]
+        "reference_post": ["reference_post_unit"]
       },
       "properties": {
         "device_type": {
@@ -125,7 +124,7 @@
           "type": "boolean"
         },
         "road_direction": {
-          "$ref": "https://raw.githubusercontent.com/vibangonzales/vibantest/main/Direction.json",
+          "$ref": "https://???/Direction.json",
           "description": "The direction of the road that the field device is on. This value indicates the direction of the traffic flow of the road, not a real heading angle."
         },
         "road_names": {
@@ -166,7 +165,7 @@
           "type": "number",
           "description": "The linear distance measured against a reference post marker along a roadway where the device is located"
         },
-        "unit": {
+        "reference_post_unit": {
           "description": "The unit used for reference post",
           "$ref": "#/definitions/UnitOfMeasurement"
         },
@@ -253,7 +252,8 @@
             "core_details"
           ],
           "dependencies": {
-            "image_url": ["image_timestamp"]
+            "image_url": ["image_timestamp"],
+            "video_url": ["video_update_frequency"]
           },
           "properties": {
             "core_details": {
@@ -272,8 +272,14 @@
             "video_url": {
               "type": "string",
               "format": "uri",
-              "description": "A URL pointing to an video file for the camera image still"
-            }
+              "description": "A URL pointing to a video file for the camera video"
+            },
+            "video_update_frequency": {
+              "description": "The frequency at which the video feed is updated",
+              "type": "integer",
+              "minimum": -1,
+              "maximum": 1
+            },
           }
         }
       ]
@@ -690,6 +696,7 @@
         "maintenance-vehicle",
         "emergency-vehicle",
         "stalled-or-disabled-vehicle",
+        "pavement-marking-vehicle",
         "other"
       ]
     },
